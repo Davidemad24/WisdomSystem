@@ -1,0 +1,6 @@
+@Wisdom_HostAddress = http://localhost:5123
+
+GET {{Wisdom_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
