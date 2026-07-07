@@ -13,7 +13,7 @@ public class WisdomRepo : IWisdomRepo
     public WisdomRepo(AppDbContext appDbContext) => _appDbContext = appDbContext;
 
     // Methods
-    public async Task<ICollection<Entities.Wisdom>> GetUserWisdom(int userId)
+    public async Task<ICollection<Entities.Wisdom>> GetUserWisdoms(int userId)
     {
         return await _appDbContext.Wisdoms.Where(wisdom => wisdom.UserId == userId).AsNoTracking().ToListAsync();
     }

@@ -19,15 +19,20 @@ public class UserRepo : IUserRepo
         return await _appDbContext.Users.SingleOrDefaultAsync(user => user.Email == email);
     }
 
-    public async Task<bool> CheckPassword(string email, string password)
+    public async Task<string?> GetUserPassword(string email)
     {
-        return _appDbContext.Users.AsNoTracking()
-                   .Where(user => user.Email == email && user.Password == password) != null;
+        return (await _appDbContext.Users.AsNoTracking()
+                   .FirstOrDefaultAsync(user => user.Email == email))?.Password;
     }
 
     public async Task<bool> IsExistById(int id)
     {
         return await _appDbContext.Users.FindAsync(id) != null;
+    }
+
+    public async Task<bool> IsExistByEmail(string email)
+    {
+        return await _appDbContext.Users.SingleOrDefaultAsync(user => user.Email == email) is not null;
     }
 
     public async Task<User?> Add(User user)

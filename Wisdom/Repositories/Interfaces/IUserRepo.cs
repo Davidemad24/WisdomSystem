@@ -6,8 +6,9 @@ public interface IUserRepo
 {
     // Queries
     Task<User?> FindByEmail(string email);
-    Task<bool> CheckPassword(string email, string password);
+    Task<string?> GetUserPassword(string email);
     Task<bool> IsExistById(int id);
+    Task<bool> IsExistByEmail(string email);
     
     // Manipulations
     Task<User?> Add(User user);
