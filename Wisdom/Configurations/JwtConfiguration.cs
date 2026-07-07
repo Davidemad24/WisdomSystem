@@ -1,0 +1,9 @@
+﻿namespace Wisdom.Configurations;
+
+public class JwtConfiguration
+{
+    public string Audience { get; set; }
+    public string Issuer { get; set; }
+    public string SigningKey { get; set; }
+    public double ExpiryHours { get; set; }
+}
