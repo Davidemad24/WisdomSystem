@@ -12,7 +12,7 @@ using Wisdom.Persistence;
 namespace Wisdom.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260706065047_InitializeDatabase")]
+    [Migration("20260708084159_InitializeDatabase")]
     partial class InitializeDatabase
     {
         /// <inheritdoc />
@@ -34,14 +34,12 @@ namespace Wisdom.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2026, 7, 6, 6, 50, 33, 238, DateTimeKind.Utc).AddTicks(5183));
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("ExpiresOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("RevokedOn")
+                    b.Property<DateTime?>("RevokedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Token")
@@ -105,9 +103,7 @@ namespace Wisdom.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2026, 7, 6, 6, 50, 33, 318, DateTimeKind.Utc).AddTicks(192));
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");

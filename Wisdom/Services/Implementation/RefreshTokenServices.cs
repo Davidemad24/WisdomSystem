@@ -34,6 +34,7 @@ public class RefreshTokenServices : IRefreshTokenServices
         return new RefreshToken
         {
             Token = Convert.ToBase64String(randomBytes),
+            CreatedOn = DateTime.UtcNow,
             ExpiresOn = DateTime.UtcNow.AddHours(2)
         };
     }
