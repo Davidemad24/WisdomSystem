@@ -44,7 +44,6 @@ public class RefreshTokenServices : IRefreshTokenServices
     {
         // Get refresh token and check expiration date
         var token = await _refreshTokenRepo.Get(refreshToken);
-        Console.WriteLine($"Token: {refreshToken}");
         if (token is null || !token.IsActive) 
             return new AuthenticationDto{ IsAuthenticated = false, Message = "Invalid token."};
         

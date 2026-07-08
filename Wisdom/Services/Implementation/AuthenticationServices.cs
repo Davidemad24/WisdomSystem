@@ -31,7 +31,6 @@ public class AuthenticationServices : IAuthenticationServices
     // Methods
     private int GenerateVerificationCode() => (new Random()).Next(100000, 1000000);
     private string HashPassword(string password) => BCrypt.Net.BCrypt.HashPassword(password);
-
     private bool VerifyPassword(string storedPassword, string enteredPassword)
         => BCrypt.Net.BCrypt.Verify(enteredPassword, storedPassword);
     
@@ -132,7 +131,7 @@ public class AuthenticationServices : IAuthenticationServices
         var storedCode = await _cacheServices.GetCode(resetPasswordDto.Email);
         
         // Check code
-        if (storedCode == 0 || storedCode != resetPasswordDto.code) 
+        if (storedCode == 0 || storedCode != resetPasswordDto.Code) 
             return new ServiceResult{ Message = "Code is not correct.", StatusCode = 400 };
         
         // Update password

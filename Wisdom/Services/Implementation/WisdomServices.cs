@@ -38,7 +38,7 @@ public class WisdomServices : IWisdomServices
         
         // Check user existence
         if (!await _userRepo.IsExistById(wisdom.UserId)) 
-            return new ServiceResult{ Message = "User not exist.", StatusCode = 404 };
+            return new ServiceResult{ Message = "User is not exist.", StatusCode = 404 };
         
         // Check duplication
         if (await _wisdomRepo.CheckDuplication(wisdom)) 
@@ -54,7 +54,7 @@ public class WisdomServices : IWisdomServices
     {
         // Check wisdom existence
         var currentWisdom = await _wisdomRepo.FindById(wisdomUpdatingDto.Id);
-        if (currentWisdom is null) return new ServiceResult{ Message = "Wisdom not exist.", StatusCode = 404 };
+        if (currentWisdom is null) return new ServiceResult{ Message = "Wisdom is not exist.", StatusCode = 404 };
 
         // Replace current wisdom content by new content
         currentWisdom.Content = wisdomUpdatingDto.Content;
@@ -77,7 +77,7 @@ public class WisdomServices : IWisdomServices
     {
         // Check wisdom existence
         var wisdom = await _wisdomRepo.FindById(id);
-        if (wisdom is null) return new ServiceResult{ Message = "Wisdom not exist.", StatusCode = 404 };
+        if (wisdom is null) return new ServiceResult{ Message = "Wisdom is not exist.", StatusCode = 404 };
         
         // Delete wisdom
         return (await _wisdomRepo.Delete(wisdom))

@@ -5,7 +5,7 @@ namespace Wisdom.DTOs.Authentication;
 public class ResetPasswordDto
 {
     [Range(100000, 1000000, ErrorMessage = "Code must be 6 digits")]
-    public int code { get; set; }
+    public int Code { get; set; }
     
     [MaxLength(150, ErrorMessage = "Length of Email attribute must be at most 150 characters")]
     [EmailAddress(ErrorMessage = "Error: invalid email.")]
