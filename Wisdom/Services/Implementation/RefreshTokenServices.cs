@@ -48,7 +48,7 @@ public class RefreshTokenServices : IRefreshTokenServices
             return new AuthenticationDto{ IsAuthenticated = false, Message = "Invalid token."};
         
         // Revoke refresh token
-        token.ExpiresOn = DateTime.UtcNow;
+        token.RevokedOn = DateTime.UtcNow;
         await _refreshTokenRepo.Update(token);
         
         // Get user data, generate JWT, refresh token and store it
