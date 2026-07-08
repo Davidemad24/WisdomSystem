@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Wisdom;
 using Wisdom.Configurations;
 using Wisdom.Persistence;
 using Wisdom.Repositories.Implementation;
@@ -60,6 +61,10 @@ builder.Services.AddScoped<IRefreshTokenServices, RefreshTokenServices>();
 builder.Services.AddScoped<IAuthenticationServices, AuthenticationServices>();
 builder.Services.AddScoped<IWisdomServices, WisdomServices>();
 
+// Register exception handler
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
 // Add controllers
 builder.Services.AddControllers();
 
@@ -72,10 +77,14 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    // Configure exception handler
+    app.UseExceptionHandler(_ => { });
+    
+    // Open API
     app.MapOpenApi();
 }
 
-// Http redirection, authorization
+// Http redirection, authorization and exception handler
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
