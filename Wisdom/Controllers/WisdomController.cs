@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 using Wisdom.DTOs.Wisdom;
 using Wisdom.Services.Interfaces;
 
@@ -16,8 +17,12 @@ public class WisdomController : ControllerBase
     
     // Get user wisdom API
     [HttpGet("GetUserWisdoms")]
-    public async Task<IActionResult> GetUserWisdoms(int userId)
+    public async Task<IActionResult> GetUserWisdoms([Required] int userId)
     {
+        // Check model states
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+        
         return Ok(await _wisdomServices.GetUserWisdoms(userId));
     }
     

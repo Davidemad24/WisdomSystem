@@ -16,7 +16,7 @@ public class RefreshTokenController : ControllerBase
     
     // Refresh token API
     [HttpPost("RefreshToken")]
-    public async Task<IActionResult> RefreshToken(string refreshToken)
+    public async Task<IActionResult> RefreshToken([FromBody] string refreshToken)
     {
         // Check model states
         if (!ModelState.IsValid)
@@ -24,7 +24,7 @@ public class RefreshTokenController : ControllerBase
         
         // Check status
         var result = await _refreshTokenServices.RefreshToken(refreshToken);
-        if (!result.IsAuthenticated) return BadRequest(result);
+        if (!result.IsAuthenticated) return BadRequest(result.Message);
         return Ok(result);
     }
 }

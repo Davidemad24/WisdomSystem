@@ -44,7 +44,7 @@ public class AuthenticationServices : IAuthenticationServices
         
         // Check password 
         var storedPassword = await _userRepo.GetUserPassword(loginDto.Email);
-        if (VerifyPassword(storedPassword, loginDto.Password))
+        if (!VerifyPassword(storedPassword, loginDto.Password))
             return new AuthenticationDto { IsAuthenticated = false, Message = "Email or password is not correct" };
         
         // Create JWT
@@ -52,6 +52,7 @@ public class AuthenticationServices : IAuthenticationServices
         
         // Create refresh token and save it
         var refreshToken = RefreshTokenServices.GenerateRefreshToken();
+        refreshToken.UserId = user.Id;
         await _refreshTokenRepo.Add(refreshToken);
         
         // Map to DTO
@@ -79,6 +80,7 @@ public class AuthenticationServices : IAuthenticationServices
         // Create JWT, create refresh token and add it
         var jwtSecurityToken = await _jwtServices.GenerateJwtToken(newUser);
         var refreshToken = RefreshTokenServices.GenerateRefreshToken();
+        refreshToken.UserId = newUser.Id;
         await _refreshTokenRepo.Add(refreshToken);
         
         // Map to DTO
@@ -116,19 +118,8 @@ public class AuthenticationServices : IAuthenticationServices
         EmailServices.SendEmail(email, "Verify your email", body);
         
         // Save code in cache 
-        _cacheServices.SaveCode(code, user.Id);
-        return new ServiceResult{ Message = "You have 10 minutes for verifying your email.", StatusCode = 100 };
-    }
-
-    public async Task<ServiceResult> CheckVerificationCode(int code, int userId)
-    {
-        // Get code from cache
-        var storedCode = await _cacheServices.GetCode(userId);
-        
-        // Check code
-        return (storedCode != 0 && storedCode == code) 
-            ? new ServiceResult{ Message = "Code is correct.", StatusCode = 100 } 
-            : new ServiceResult{ Message = "Code is not correct.", StatusCode = 400 };
+        _cacheServices.SaveCode(code, user.Email);
+        return new ServiceResult{ Message = "You have 10 minutes for verifying your email.", StatusCode = 200 };
     }
 
     public async Task<ServiceResult> ResetPassword(ResetPasswordDto resetPasswordDto)
@@ -136,6 +127,13 @@ public class AuthenticationServices : IAuthenticationServices
         // Find user by email
         var user = await _userRepo.FindByEmail(resetPasswordDto.Email);
         if (user is null) return new ServiceResult{ Message = "Email is not exist.", StatusCode = 404 };
+        
+        // Get code from cache
+        var storedCode = await _cacheServices.GetCode(resetPasswordDto.Email);
+        
+        // Check code
+        if (storedCode == 0 || storedCode != resetPasswordDto.code) 
+            return new ServiceResult{ Message = "Code is not correct.", StatusCode = 400 };
         
         // Update password
         user.Password = HashPassword(resetPasswordDto.Password);

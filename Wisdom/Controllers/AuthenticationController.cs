@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 using Wisdom.DTOs.Authentication;
 using Wisdom.Services.Interfaces;
 
@@ -25,7 +26,7 @@ public class AuthenticationController : ControllerBase
         
         // Check login status
         var result = await _authenticationServices.Login(loginDto);
-        if (!result.IsAuthenticated) return BadRequest(result);
+        if (!result.IsAuthenticated) return BadRequest(result.Message);
         return Ok(result);
     }
     
@@ -39,13 +40,13 @@ public class AuthenticationController : ControllerBase
         
         // Check register status
         var result = await _authenticationServices.Register(registerDto);
-        if (!result.IsAuthenticated) return BadRequest(result);
+        if (!result.IsAuthenticated) return BadRequest(result.Message);
         return Ok(result);
     }
     
     // Logout API
     [HttpPost("Logout")]
-    public async Task<IActionResult> Logout(string refreshToken)
+    public async Task<IActionResult> Logout([FromBody] string refreshToken)
     {
         // Check model states
         if (!ModelState.IsValid)
@@ -58,7 +59,7 @@ public class AuthenticationController : ControllerBase
     
     // Send verification email API
     [HttpPost("SendVerificationEmail")]
-    public async Task<IActionResult> SendVerificationEmail(string email)
+    public async Task<IActionResult> SendVerificationEmail([EmailAddress] string email)
     {
         // Check model states
         if (!ModelState.IsValid)
@@ -66,19 +67,6 @@ public class AuthenticationController : ControllerBase
         
         // Return result
         var result = await _authenticationServices.SendVerificationEmail(email);
-        return StatusCode(result.StatusCode, result.Message);
-    }
-    
-    // Check verification code API
-    [HttpPost("CheckVerificationCode")]
-    public async Task<IActionResult> CheckVerificationCode(int code, int userId)
-    {
-        // Check model states
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-        
-        // Return result
-        var result = await _authenticationServices.CheckVerificationCode(code, userId);
         return StatusCode(result.StatusCode, result.Message);
     }
     

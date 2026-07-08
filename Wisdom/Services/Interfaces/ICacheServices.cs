@@ -2,6 +2,6 @@
 
 public interface ICacheServices
 {
-    void SaveCode(int code, int userId);
-    Task<int> GetCode(int userId);
+    void SaveCode(int code, string email);
+    Task<int> GetCode(string email);
 }

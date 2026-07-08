@@ -16,7 +16,7 @@ public class RegisterDto
     [StringLength(20, MinimumLength = 8
         , ErrorMessage = "Length for password attribute must be at least 8 and at most 20 characters")]
     [RegularExpression(
-        @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%&*?^()_+\=-\[\]{};':""\\|,.<>\/~`]).{8, 20}$",
+        @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%&*?^()_+\=-\[\]{};':""\\|,.<>\/~`]).{8,20}$",
         ErrorMessage = "Password must contain at least one capital letter, " +
                        "one small letter, one number and one  special character")]
     public string Password { get; set; }

@@ -16,7 +16,7 @@ public class UserRepo : IUserRepo
     // Methods
     public async Task<User?> FindByEmail(string email)
     {
-        return await _appDbContext.Users.SingleOrDefaultAsync(user => user.Email == email);
+        return await _appDbContext.Users.AsNoTracking().SingleOrDefaultAsync(user => user.Email == email);
     }
 
     public async Task<string?> GetUserPassword(string email)
@@ -27,17 +27,19 @@ public class UserRepo : IUserRepo
 
     public async Task<bool> IsExistById(int id)
     {
-        return await _appDbContext.Users.FindAsync(id) != null;
+        return await _appDbContext.Users.AsNoTracking().SingleOrDefaultAsync(user => user.Id == id) != null;
     }
 
     public async Task<bool> IsExistByEmail(string email)
     {
-        return await _appDbContext.Users.SingleOrDefaultAsync(user => user.Email == email) is not null;
+        return await _appDbContext.Users.AsNoTracking().SingleOrDefaultAsync(user => user.Email == email) is not null;
     }
 
     public async Task<User?> Add(User user)
     {
-        return (await _appDbContext.Users.AddAsync(user)).Entity;
+        var u = (await _appDbContext.Users.AddAsync(user)).Entity;
+        await _appDbContext.SaveChangesAsync();
+        return u;
     }
 
     public async Task<bool> Update(User user)

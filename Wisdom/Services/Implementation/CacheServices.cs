@@ -12,13 +12,13 @@ public class CacheServices : ICacheServices
     public CacheServices(IMemoryCache memoryCache) => _memoryCache = memoryCache;
     
     // Methods
-    public void SaveCode(int code, int userId)
+    public void SaveCode(int code, string email)
     {
-        _memoryCache.Set($"UserId: {userId}", code, TimeSpan.FromMinutes(10));
+        _memoryCache.Set($"Email: {email}", code, TimeSpan.FromMinutes(10));
     }
 
-    public async Task<int> GetCode(int userId)
+    public async Task<int> GetCode(string email)
     {
-        return _memoryCache.TryGetValue($"UserId: {userId}", out int code) ? code : 0;
+        return _memoryCache.TryGetValue($"Email: {email}", out int code) ? code : 0;
     }
 }

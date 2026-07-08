@@ -52,15 +52,16 @@ public class WisdomServices : IWisdomServices
 
     public async Task<ServiceResult> Update(WisdomUpdatingDto wisdomUpdatingDto)
     {
-        // Map to entity
-        var wisdom = _mapper.Map<Entities.Wisdom>(wisdomUpdatingDto);
-
         // Check wisdom existence
-        var currentWisdom = await _wisdomRepo.FindById(wisdom.Id);
+        var currentWisdom = await _wisdomRepo.FindById(wisdomUpdatingDto.Id);
         if (currentWisdom is null) return new ServiceResult{ Message = "Wisdom not exist.", StatusCode = 404 };
 
         // Replace current wisdom content by new content
-        currentWisdom.Content = wisdom.Content;
+        currentWisdom.Content = wisdomUpdatingDto.Content;
+        
+        // Check owner
+        if (currentWisdom.UserId != wisdomUpdatingDto.UserId)
+            return new ServiceResult { Message = "Error: user not own this wisdom.", StatusCode = 402 };
 
         // Check duplication
         if (await _wisdomRepo.CheckDuplication(currentWisdom))

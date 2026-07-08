@@ -1,5 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Wisdom.DTOs.Authentication;
 using Wisdom.Entities;
 using Wisdom.Repositories.Interfaces;
@@ -43,6 +44,7 @@ public class RefreshTokenServices : IRefreshTokenServices
     {
         // Get refresh token and check expiration date
         var token = await _refreshTokenRepo.Get(refreshToken);
+        Console.WriteLine($"Token: {refreshToken}");
         if (token is null || !token.IsActive) 
             return new AuthenticationDto{ IsAuthenticated = false, Message = "Invalid token."};
         
@@ -54,6 +56,7 @@ public class RefreshTokenServices : IRefreshTokenServices
         var user = token.User;
         var jwtSecurityToken = await _jwtServices.GenerateJwtToken(user);
         var newRefreshToken = RefreshTokenServices.GenerateRefreshToken();
+        newRefreshToken.UserId = user.Id;
         await _refreshTokenRepo.Add(newRefreshToken);
         
         // Map to DTO
