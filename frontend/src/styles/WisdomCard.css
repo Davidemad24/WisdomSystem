@@ -1,0 +1,43 @@
+.wisdom-card {
+    border-radius: 14px;
+    padding: 20px;
+    color: #f4f1ea;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 160px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.wisdom-content {
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0 0 16px;
+    white-space: pre-wrap;
+}
+
+.wisdom-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+}
+
+.wisdom-date {
+    color: rgba(244, 241, 234, 0.7);
+}
+
+.wisdom-actions button {
+    background: rgba(255, 255, 255, 0.12);
+    border: none;
+    color: #fff;
+    border-radius: 6px;
+    padding: 5px 9px;
+    margin-left: 6px;
+    cursor: pointer;
+    font-size: 13px;
+}
+.wisdom-actions button:hover {
+    background: rgba(255, 255, 255, 0.25);
+}

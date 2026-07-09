@@ -1,0 +1,35 @@
+.wisdom-page {
+    min-height: 100vh;
+    background: radial-gradient(circle at 80% 0%, #2b2d64 0%, #14142e 50%, #0a0a1c 100%);
+}
+
+.wisdom-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px 60px;
+}
+
+.wisdom-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+}
+
+.wisdom-header h1 {
+    font-family: "Playfair Display", serif;
+    color: #d4af37;
+    margin: 0;
+}
+
+.wisdom-status {
+    color: #b7b4c9;
+    text-align: center;
+    margin-top: 60px;
+}
+
+.wisdom-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+}
