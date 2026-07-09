@@ -22,7 +22,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
 // Register memory cache
 builder.Services.AddMemoryCache();
 
-// Register jwt and add authentication
+// Register jwt, and add authentication and authorization
 var jwtConfiguration = new JwtConfiguration();
 builder.Configuration.GetSection("JWT").Bind(jwtConfiguration);
 builder.Services.AddSingleton(jwtConfiguration);
@@ -45,6 +45,7 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfiguration.SigningKey))
     };
 });
+builder.Services.AddAuthorization();
 
 // Register auto mapper
 builder.Services.AddAutoMapper(config => {}, Assembly.GetExecutingAssembly());
@@ -68,6 +69,19 @@ builder.Services.AddProblemDetails();
 // Add controllers
 builder.Services.AddControllers();
 
+// Add CORS services to the container
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "Wisdom System Frontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+        });
+});
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
@@ -83,6 +97,9 @@ if (app.Environment.IsDevelopment())
     // Open API
     app.MapOpenApi();
 }
+
+// Use CORS
+app.UseCors("Wisdom System Frontend");
 
 // Http redirection, authorization and authentication
 app.UseHttpsRedirection();
