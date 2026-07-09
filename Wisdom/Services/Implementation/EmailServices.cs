@@ -12,7 +12,7 @@ public class EmailServices
         var smtpClient = new SmtpClient("smtp.gmail.com")
         {
             Port = 587,
-            Credentials = new NetworkCredential("divademadpro160@gmail.com", "wovn cqyx uhff orwr"),
+            Credentials = new NetworkCredential("divademadpro160@gmail.com", "?"),
             EnableSsl = true
         };
         
