@@ -84,8 +84,9 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-// Http redirection, authorization and exception handler
+// Http redirection, authorization and authentication
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 
 // Map controllers

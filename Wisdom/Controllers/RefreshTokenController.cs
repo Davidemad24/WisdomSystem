@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Wisdom.Services.Interfaces;
 
 namespace Wisdom.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[AllowAnonymous]
 public class RefreshTokenController : ControllerBase
 {
     // Attributes

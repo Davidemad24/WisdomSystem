@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Wisdom.DTOs.Authentication;
 using Wisdom.Services.Interfaces;
@@ -7,6 +8,7 @@ namespace Wisdom.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[AllowAnonymous]
 public class AuthenticationController : ControllerBase
 {
     // Attributes

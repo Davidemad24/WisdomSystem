@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Wisdom.DTOs.Wisdom;
 using Wisdom.Services.Interfaces;
@@ -7,6 +8,7 @@ namespace Wisdom.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class WisdomController : ControllerBase
 {
     // Attributes
